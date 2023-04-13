@@ -29,6 +29,29 @@ def create_user():
     else:
         response = {'message':'llenar todos los campos por favor'}
         return response
+    
+@app.route('/producto', methods=['POST'])
+def create_producto():
+    producto = request.json['producto']
+    precio = request.json['precio']
+    catalogo = request.json['catalogo']
+    stop = request.json['stop']
+
+    if producto and precio and catalogo and stop:
+        id = mongo.db.producto.insert_one(
+                {'producto': producto,'precio': precio,'catalogo': catalogo, 'stop': stop}
+        ).inserted_id
+        response = {
+            'id': str(id),
+            'producto': producto,
+            'precio': precio,
+            'catalogo' : catalogo,
+            'stop' : stop
+        }
+        return response
+    else:
+        response = {'message':'llenar todos los campos por favor'}
+        return response
 
 @app.errorhandler(404)
 def not_found(error = None):
