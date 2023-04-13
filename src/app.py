@@ -6,12 +6,10 @@ app = Flask(__name__)
 app.config['MONGO_DBNAME'] = 'test'
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/APIREST'
 
-
 mongo = PyMongo(app)
 
 @app.route('/users', methods=['POST'])
 def create_user():
-    #print(request.json)
     username = request.json['username']
     password = request.json['password']
     email = request.json['email']
