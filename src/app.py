@@ -52,6 +52,27 @@ def create_producto():
     else:
         response = {'message':'llenar todos los campos por favor'}
         return response
+    
+@app.route('/catalogo', methods=['POST'])
+def create_catalogo():
+    catalogo = request.json['catalogo']
+    portafolio = request.json['portafolio']
+
+    if portafolio and catalogo:
+        id = mongo.db.catalogo.insert_one(
+                {'portafolio': portafolio,'catalogo': catalogo}
+        ).inserted_id
+        response = {
+            'id': str(id),
+            'portafolio': portafolio,
+            'catalogo': catalogo,
+
+        }
+        return response
+    else:
+        response = {'message':'llenar todos los campos por favor'}
+        return response
+
 
 @app.errorhandler(404)
 def not_found(error = None):
